@@ -1,0 +1,22 @@
+{
+  "name": "center-management-admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "center-manager-admin",
+    "admin"
+  ],
+  "author": "nguyenchilap, NGUYENDAILONG, longvipsilip1",
+  "license": "ISC",
+  "devDependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14"
+  }
+}

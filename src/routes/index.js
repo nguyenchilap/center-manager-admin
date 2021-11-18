@@ -1,9 +1,9 @@
 const siteRouter = require('./site');
-const createRouter = require('./creates');
+const courseRouter = require('./courses');
 
 function route(app) {
     
-    app.use('/create', createRouter);
+    app.use('/courses', courseRouter);
 
     app.use('/', siteRouter);
 }

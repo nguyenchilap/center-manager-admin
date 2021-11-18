@@ -7,6 +7,10 @@ const app = express();
 const port = 3000;
 
 const route = require('./routes'); 
+const db = require('./config/db');
+
+//CONNECT TO DB
+db.connect();
 
 //HTTP logger
 app.use(morgan('combined'));
@@ -21,7 +25,11 @@ app.use(express.urlencoded({
 
 //Template Engine
 app.engine('hbs', handlebars({
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+      sum: (a, b) => a + b,
+      isNone: param => param === 'none', 
+    }
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));

@@ -592,3 +592,39 @@ table.dataTable thead .sorting:after {
   /* active text color */
   background-color: #a94442;
   /* active bg color */ }
+
+.form-group.input__type > select,
+.form-group.input__type > input {
+  margin-bottom: 12px; }
+
+.input__type-control {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px; }
+
+.create__lesson-list {
+  margin-top: 24px;
+  display: block;
+  max-height: 240px;
+  overflow-y: auto; }
+
+.create__lesson-list tr {
+  display: flex;
+  width: 100%; }
+
+.create__lesson-list tr td:nth-child(1),
+.create__lesson-list tr th:nth-child(1) {
+  width: 70px; }
+
+.create__lesson-list tr td:nth-child(2),
+.create__lesson-list tr th:nth-child(2) {
+  width: 120px; }
+
+.create__lesson-list tr td:nth-child(3),
+.create__lesson-list tr th:nth-child(3) {
+  flex: 1; }
+
+.input__img {
+  margin-top: 8px;
+  width: 270px;
+  height: 180px; }

@@ -1,0 +1,104 @@
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Course</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Create new Course
+                    </div>
+                    <form class="panel-body" method="POST" action="/courses/create/create-course">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div role="form">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input name="name" class="form-control" placeholder="Example: Lập trình NodeJs" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea name="description" class="form-control" rows="3" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Picture</label>
+                                        <input name="img" type="file" value="none">
+                                        <img class="input__img" src="/img/courses/default-img.jfif" alt="course-img">
+                                    </div>                                 
+                                    <div class="form-group input__type">
+                                        <label>Course Type</label>
+                                        <select class="form-control" name="type[]">
+                                            <option>-- Chọn loại khóa học --</option>
+                                            {{#each courseTypes}}
+                                            <option>{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="input__type-control">
+                                        <div>
+                                            <a class="btn btn-primary btn-add-field btn-add-field__type">Add Type</a>
+                                            <a class="btn btn-primary btn-add-field btn-add-field__type-create">Create new Type</a>
+                                        </div>
+                                        <a class="btn btn-danger btn-add-field btn-add-field__type-remove">Remove Last</a>
+                                    </div>
+                                    <div class="form-group input__level">
+                                        <label>Level</label>
+                                        <select class="form-control" name="level">
+                                            <option>-- Chọn trình độ khóa học --</option>
+                                            <option>Cơ bản</option>
+                                            <option>Trung bình</option>
+                                            <option>Nâng cao</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Lesson Name</label>
+                                    <input name="name-lesson" class="form-control" placeholder="Example: Giới thiệu JavaScript">
+                                </div>
+                                <div class="form-group">
+                                    <label>Lesson Description</label>
+                                    <textarea name="description-lesson" class="form-control" rows="3"></textarea>
+                                </div>
+                                <a class="btn btn-primary btn-add-lesson">Add Lesson</a>
+
+                                <div class="form-group">
+                                    <table class="table table-striped table-bordered table-hover create__lesson-list">
+                                        <thead>
+                                            <tr>
+                                                <th>Serial</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                        </div>
+                        <!-- /.row (nested) -->
+                        <button type="submit" class="btn btn-default btn-success btn-submit">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+                    </form>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /#page-wrapper -->
+<script src="/js/create-course.js"></script>

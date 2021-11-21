@@ -9,5 +9,6 @@ const {uploadCourseImg} = require('../utils/uploadImage');
 router.post('/create/create-course', uploadCourseImg.single('img'), courseController.checkTypeCourse, courseController.create);
 router.get('/create', courseController.showForm);
 
+router.get('/', courseController.showCourses);
 
 module.exports = router;

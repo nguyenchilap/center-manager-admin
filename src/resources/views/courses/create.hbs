@@ -13,7 +13,7 @@
                     <div class="panel-heading">
                         Create new Course
                     </div>
-                    <form class="panel-body" method="POST" action="/courses/create/create-course">
+                    <form class="panel-body" method="POST" action="/courses/create/create-course" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div role="form">
@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Picture</label>
-                                        <input name="img" type="file" value="none">
+                                        <input name="img" type="file" accept="image/*">
                                         <img class="input__img" src="/img/courses/default-img.jfif" alt="course-img">
                                     </div>                                 
                                     <div class="form-group input__type">
@@ -54,6 +54,10 @@
                                             <option>Trung bình</option>
                                             <option>Nâng cao</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group input__price">
+                                        <label>Price</label>
+                                        <input name="price" class="form-control" type="number" onkeypress="return isNumberKey(event)" required>
                                     </div>
                                 </div>
                             </div>

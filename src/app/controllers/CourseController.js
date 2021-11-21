@@ -4,6 +4,18 @@ const {multiMongooseToObject} = require('../../utils/mongoose');
 
 class CourseController {
 
+    //[GET] /courses/
+    showCourses(req, res, next){
+        Course.find({})
+        .then(courses => {
+            res.render('courses/manage', {
+                courses: multiMongooseToObject(courses),
+            });
+        })  
+        .catch(next);   
+    }
+
+
     //[GET] /courses/create
     showForm(req, res, next){
         CourseType.find({})
@@ -15,7 +27,7 @@ class CourseController {
         .catch(next);
     }
 
-    //[GET] /courses/create/create-course
+    //[POST] /courses/create/create-course
     checkTypeCourse(req, res, next){
         const formData = req.body;
         // res.json(formData);
@@ -23,9 +35,7 @@ class CourseController {
             formData['type-new'].forEach((newType) => {
                 const courseType = new CourseType({name: newType});
                 courseType.save()
-                .then(() => {
-                    next();
-                })
+                .then(next())
                 .catch(next());
             })
         }
@@ -43,16 +53,21 @@ class CourseController {
                 });
             })
         }
-        if (!formData.img) formData.img = 'none';
+        if (!req.file) formData.img = 'none';
+        else {
+            const d = new Date();
+            formData.img = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + "-" + formData.name + "/" + req.file.originalname;
+        }
         const course = new Course({ name: formData.name, 
                                     description: formData.description, 
                                     img: formData.img, 
+                                    price: formData.price,
                                     courseTypes: formData.type.concat(formData['type-new']),
                                     courseLessons: lessonList,
                                     level: formData.level});
         course.save()
         .then(() => res.redirect('back'))
-        .catch(next());
+        .catch(next);
     }
 }
 

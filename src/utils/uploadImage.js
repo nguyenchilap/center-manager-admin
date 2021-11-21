@@ -6,7 +6,8 @@ module.exports = {
         multer({
         storage: multer.diskStorage({
             destination: (req, file, callback) => {
-                const path = `src/public/img/courses/${req.course._id}`;
+                const d = new Date();
+                const path = `src/public/img/courses/${d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + "-" + req.body.name}`;
                 fs.ensureDirSync(path);
                 callback(null, path);
             },

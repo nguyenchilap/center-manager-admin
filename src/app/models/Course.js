@@ -8,6 +8,7 @@ const Course = new Schema({
     description: {type: String},
     img: {type: String, default: 'none'},
     level: {type: String},
+    price: {type: Number},
     slug: { type: String, slug: 'name', unique: true },
     courseTypes : [],
     courseLessons: [],

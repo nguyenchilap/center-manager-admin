@@ -2,6 +2,9 @@ const express = require('express');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const path = require('path');
+const methodOverride = require('method-override');
+const bodyParser = require('body-parser');
+const multer = require('multer');
 
 const app = express();
 const port = 3000;
@@ -15,13 +18,23 @@ db.connect();
 //HTTP logger
 app.use(morgan('combined'));
 
+//override with X-HTTP-Method-Override header in request
+app.use(methodOverride('_method'))
+
 //Add static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(express.urlencoded({
+//for parsing application/x-www-form-urlencoded
+app.use(
+  express.urlencoded({
     extended: true,
-}));
-//app.use(express.json);
+  })
+);
+// for parsing application/json
+// app.use(bodyParser.json());
+// for parsing multipart/form-data
+// const upload = multer();
+// app.use(upload.array());
 
 //Template Engine
 app.engine('hbs', handlebars({
@@ -29,6 +42,7 @@ app.engine('hbs', handlebars({
     helpers: {
       sum: (a, b) => a + b,
       isNone: param => param === 'none', 
+      courseImgFolder: currentPath => currentPath.split('/')[0],
     }
 }));
 app.set('view engine', 'hbs');

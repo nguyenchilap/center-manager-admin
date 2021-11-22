@@ -16,4 +16,18 @@ module.exports = {
             }
         })
         }),
+    updateCourseImg:
+        multer({
+        storage: multer.diskStorage({
+            destination: (req, file, callback) => {
+                console.log(req.body)
+                const path = `src/public/img/courses/${req.body['img-folder']}`;
+                fs.ensureDirSync(path);
+                callback(null, path);
+            },
+            filename: (req, file, cb) => {
+                cb(null , `${file.originalname}`);
+            }
+        })
+        }),
 }

@@ -661,6 +661,11 @@ table.dataTable thead .sorting:after {
     background-color: #a94442; /* active bg color */
 }
 
+.pagination{
+    display: inline-flex;
+    float: right;
+}
+
 // CREATE COURSES
 .form-group.input__type > select,
 .form-group.input__type > input{
@@ -700,8 +705,46 @@ table.dataTable thead .sorting:after {
     flex: 1;
 }
 
+.form-img{
+    display: flex;
+    width: 50%;
+    align-items: center;
+}
+
+.uploaded-img{
+    position: relative;
+}
+
+.uploaded-img:hover .btn-input__img{
+    display: block;
+}
+
 .input__img{
     margin-top: 8px;
     width: 270px;
     height: 180px;
+    border-radius: 5px;
+}
+
+.btn-input__img{
+    top: 8px;
+    left: 0;
+    width: 270px;
+    height: 180px;
+    opacity: 0.8;
+    display: none;
+    cursor: pointer;
+    position: absolute;
+}
+
+.btn-img{
+    height: 50px;
+    margin-left: 40px;
+    display: none;
+}
+
+//MANGE COURSES
+
+.course-item{
+    cursor: pointer;
 }

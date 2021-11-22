@@ -1,6 +1,6 @@
 const Course = require('../models/Course');
 const CourseType = require('../models/CourseType');
-const {multiMongooseToObject} = require('../../utils/mongoose');
+const {mongooseToObject, multiMongooseToObject} = require('../../utils/mongoose');
 
 class CourseController {
 
@@ -14,7 +14,6 @@ class CourseController {
         })  
         .catch(next);   
     }
-
 
     //[GET] /courses/create
     showForm(req, res, next){
@@ -56,7 +55,7 @@ class CourseController {
         if (!req.file) formData.img = 'none';
         else {
             const d = new Date();
-            formData.img = d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() + "-" + formData.name + "/" + req.file.originalname;
+            formData.img = d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + "-" + formData.name + "/" + req.file.originalname;
         }
         const course = new Course({ name: formData.name, 
                                     description: formData.description, 
@@ -66,7 +65,57 @@ class CourseController {
                                     courseLessons: lessonList,
                                     level: formData.level});
         course.save()
-        .then(() => res.redirect('back'))
+        .then(() => res.redirect('courses/'))
+        .catch(next);
+    }
+
+    // [GET] /courses/:id/edit
+    showCourse(req, res, next){
+        CourseType.find({})
+        .then((types) => {
+            Course.findOne({_id: req.params.id})
+            .then((course) => {
+                res.render('courses/edit', {
+                    course: mongooseToObject(course),
+                    types: multiMongooseToObject(types)
+                });
+            })
+            .catch(next);
+        }) 
+        .catch(next);
+    }
+
+    // [PUT] /courses/:id/
+    edit(req, res, next){
+        const formData = req.body;
+        const lessonList = [];
+        if (formData.lessonNames){
+            formData.lessonNames.forEach((lessonName, index) => {
+                lessonList.push({
+                    name: lessonName,
+                    description: formData.lessonDescripts[index]
+                });
+            })
+        }
+        const course ={ name: formData.name, 
+                        description: formData.description,  
+                        price: formData.price,
+                        courseTypes: formData.type.concat(formData['type-new']),
+                        courseLessons: lessonList,
+                        level: formData.level};
+        Course.updateOne({_id: req.params.id}, course)
+        .then(() => {
+            res.redirect('back');
+        })
+        .catch(next);
+    }
+
+    // [PUT] /courses/:id/img
+    editImage(req, res, next){
+        Course.updateOne({_id: req.params.id}, {img: `${req.body['img-folder']}/${req.file.originalname}`})
+        .then(() => {
+            res.redirect('back');
+        })
         .catch(next);
     }
 }

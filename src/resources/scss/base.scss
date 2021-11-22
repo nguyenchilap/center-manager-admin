@@ -12,6 +12,17 @@ html{
     font-size: 1.4rem;
 }
 
+.btn.btn-dark-outline{
+    border-radius: 50px;
+    border: solid 2px;
+}
+
+.btn.btn-dark-outline:hover{
+    background-color: var(--black-color);
+    border: solid 2px var(--white-color);
+    color: var(--white-color);
+}
+
 .modal{
     background-color: rgba(0, 0, 0, 0.7);
     font-size: 1.4rem;
@@ -36,4 +47,5 @@ input {
 .active{
     display: block !important;
 }
+
 

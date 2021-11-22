@@ -2,13 +2,21 @@ const express = require('express');
 const router = express.Router();
 
 const courseController = require('../app/controllers/CourseController');
-const {uploadCourseImg} = require('../utils/uploadImage'); 
+const {uploadCourseImg, updateCourseImg} = require('../utils/uploadImage'); 
+
+const multer = require('multer');
+const upload = multer();
 
 //define route
+
+router.get('/edit/:id', courseController.showForm);
 
 router.post('/create/create-course', uploadCourseImg.single('img'), courseController.checkTypeCourse, courseController.create);
 router.get('/create', courseController.showForm);
 
+router.put('/:id/image', updateCourseImg.single('img'), courseController.editImage);
+router.get('/:id/edit', courseController.showCourse);
+router.put('/:id',courseController.checkTypeCourse, courseController.edit);
 router.get('/', courseController.showCourses);
 
 module.exports = router;

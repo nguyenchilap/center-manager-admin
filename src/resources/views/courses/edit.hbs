@@ -1,0 +1,157 @@
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Edit Course</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Course Information
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <form class="form-img" method="POST" action="/courses/{{course._id}}/image?_method=PUT" enctype="multipart/form-data">
+                                <input name="img-folder" type="text" style="display: none;" value="{{courseImgFolder course.img}}">
+                                <input name="img" type="file" style="display: none;" accept="image/*">
+                                <div class="uploaded-img">
+                                    <img class="input__img" src="/img/courses/{{course.img}}" alt="course-img">
+                                    <img class="btn-input__img" src="/img/camera.png" alt="btn-input-img">
+                                </div>
+                                <button type="submit" class="btn btn-dark-outline btn-img">Submit change</button>
+                            </form>
+                        </div>  
+                        <form method="POST" action="/courses/{{course._id}}?_method=PUT">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div role="form">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input value="{{course.name}}" name="name" class="form-control" placeholder="Example: Lập trình NodeJs" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea name="description" class="form-control" rows="3" required>{{course.description}}</textarea>
+                                    </div>                            
+                                    <div class="form-group input__type">
+                                        <label>Course Type</label>
+                                        <ul style="display: none;">
+                                            {{#each types as |type|}}
+                                                <li>{{type.name}}</li>
+                                            {{/each}}            
+                                        </ul>
+                                        {{#each course.courseTypes as |courseType|}}
+                                            {{#if courseType}}
+                                                <select class="form-control" name="type[]" pre-selected="{{courseType}}">
+                                                    <option>-- Chọn loại khóa học --</option>
+                                                </select>
+                                            {{/if}}
+                                        {{/each}}
+                                    </div>
+                                    <div class="input__type-control">
+                                        <div>
+                                            <a class="btn btn-primary btn-add-field btn-add-field__type">Add Type</a>
+                                            <a class="btn btn-primary btn-add-field btn-add-field__type-create">Create new Type</a>
+                                        </div>
+                                        <a class="btn btn-danger btn-add-field btn-add-field__type-remove">Remove Last</a>
+                                    </div>
+                                    <div class="form-group input__level">
+                                        <label>Level</label>
+                                        <select class="form-control" name="level" pre-selected="{{course.level}}">
+                                            <option>-- Chọn trình độ khóa học --</option>
+                                            <option>Cơ bản</option>
+                                            <option>Trung bình</option>
+                                            <option>Nâng cao</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group input__price">
+                                        <label>Price</label>
+                                        <input value="{{course.price}}" name="price" class="form-control" type="number" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Lesson Name</label>
+                                    <input name="name-lesson" class="form-control" placeholder="Example: Giới thiệu JavaScript">
+                                </div>
+                                <div class="form-group">
+                                    <label>Lesson Description</label>
+                                    <textarea name="description-lesson" class="form-control" rows="3"></textarea>
+                                </div>
+                                <a class="btn btn-primary btn-add-lesson">Add Lesson</a>
+
+                                <div class="form-group">
+                                    <table class="table table-striped table-bordered table-hover create__lesson-list">
+                                        <thead>
+                                            <tr>
+                                                <th>Serial</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each course.courseLessons}}
+                                            <tr>
+                                                <td>{{sum @index 1}}</td>
+                                                <td><input type="text" style="width: 100%" name="lessonNames[]" value="{{this.name}}"/></td>
+                                                <td><input type="text" style="width: 364px" name="lessonDescripts[]" value="{{this.description}}"/></td>
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                        </div>
+                        <!-- /.row (nested) -->
+                        <button type="submit" class="btn btn-default btn-success btn-submit">Submit Button</button>
+                        <button type="reset" class="btn btn-default">Reset Button</button>
+                    </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<!-- /#page-wrapper -->
+<script src="/js/create-course.js"></script>
+<script>
+    const types = document.querySelectorAll('.form-group.input__type ul li');
+    const selectCourseTypes = document.querySelectorAll('.form-group.input__type select');
+    const selectCourseLevel = document.querySelector('.form-group.input__level select');
+    const optionCourseLevels = document.querySelectorAll('.form-group.input__level option');
+
+    selectCourseTypes.forEach((selectCourseType) => {
+        types.forEach((type, index) => {
+            if (type.innerHTML === selectCourseType.getAttribute('pre-selected'))
+                selectCourseType.innerHTML += `<option selected>${type.innerHTML}</option>`;
+            else selectCourseType.innerHTML += `<option>${type.innerHTML}</option>`;
+        })
+    })
+
+    optionCourseLevels.forEach((option) => {
+        if (option.innerHTML === selectCourseLevel.getAttribute('pre-selected'))
+            option.setAttribute('selected','selected');
+    })
+
+    $('.btn-input__img').click(function(){
+        $('input[name="img"]').click();
+    })
+
+    $('input[name="img"]').change(function(){
+        $('.btn-img').css('display','block');
+    })
+</script>

@@ -1,6 +1,5 @@
 $(document).ready(function(){
     const MAX_FIELD_TYPE = 3;
-    let countFieldType = 1;
 
     const btnCreateLesson = document.querySelector('.btn-add-lesson');
 
@@ -8,13 +7,16 @@ $(document).ready(function(){
 
     const inputLessonName = document.querySelector('input[name = "name-lesson"]');
     const inputLessonDescript = document.querySelector('textarea[name = "description-lesson"]');
-    const selectTypeLevel = document.querySelector('.form-group.input__type > select');
+    const selectTypeLevel = document.querySelectorAll('.form-group.input__type > select');
+
+    let countFieldType = selectTypeLevel.length;
+
 
     //Add Type
     $('.btn-add-field__type').click(function(){
         if (countFieldType < MAX_FIELD_TYPE){
             countFieldType += 1;
-            formType.append(selectTypeLevel.outerHTML);
+            formType.append(selectTypeLevel[0].outerHTML);
         }
     })
 
@@ -72,11 +74,11 @@ $(document).ready(function(){
     })
 
     //Allow only number
-    function isNumberKey(evt){
+    $('input[name="price"]').keypress(function(evt){
         var charCode = (evt.which) ? evt.which : evt.keyCode
         if (charCode > 31 && (charCode < 48 || charCode > 57))
             return false;
         return true;
-    }
+    })
 })
 

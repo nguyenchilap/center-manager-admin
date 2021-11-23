@@ -16,6 +16,7 @@ router.get('/create', courseController.showForm);
 
 router.post('/handle-form-actions', courseController.handleFormActions);
 
+router.post('/rubbish/handle-form-actions', courseController.handleFormActionsRubbish);
 router.get('/rubbish', courseController.showCourseDeleted);
 
 router.put('/:id/image', updateCourseImg.single('img'), courseController.editImage);

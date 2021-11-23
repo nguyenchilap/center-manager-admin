@@ -143,6 +143,18 @@ class CourseController {
                 res.json({message: 'Invalid Action'});
         }
     }
+
+    handleFormActionsRubbish(req, res, next){
+        switch(req.body["input-action"]){
+            case 'Restore':
+                Course.restore({ _id: { $in: req.body.courseIds } })
+                .then(() => res.redirect('back'))
+                .catch(next);
+                break;
+            default:
+                res.json({message: 'Invalid Action'});
+        }
+    }
 }
 
 module.exports = new CourseController();

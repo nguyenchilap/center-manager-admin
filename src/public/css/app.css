@@ -660,11 +660,26 @@ table.dataTable thead .sorting:after {
   margin-left: 40px;
   display: none; }
 
+.form-group-actions {
+  display: flex;
+  align-items: center; }
+
+.btn-group-actions {
+  margin-left: 12px; }
+
 .course-item {
   cursor: pointer; }
+
+input[name="courseIds[]"] {
+  position: relative;
+  top: 2px; }
 
 .list-actions a {
   cursor: pointer; }
 
 .btn-open-rubbish {
   float: right; }
+
+.course-item-select-all {
+  position: relative;
+  top: 2px; }

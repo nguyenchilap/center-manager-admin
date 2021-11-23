@@ -18,9 +18,13 @@
                         <div class="table-responsive">
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <div class="form-group">
+                                    <div class="form-group form-group-actions">
+                                        <div>
+                                            <input class="course-item-select-all" name="course-item-select-all" type="checkbox">
+                                            <label for="course-item-select-all">Select all</label>
+                                        </div>
                                         <!-- Single button -->
-                                        <div class="btn-group">
+                                        <div class="btn-group btn-group-actions">
                                         <button type="button" class="btn btn-primary dropdown-toggle btn-action disabled" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Action all selected <span class="caret"></span>
                                         </button>
@@ -98,6 +102,7 @@
 <script src="/js/dataTables/dataTables.bootstrap.min.js"></script>
 <script>
         const checkboxCourses = $('input[name="courseIds[]"]');
+        const checkboxAllCourses = $('input[name="course-item-select-all"]');
 
         //enable pagination table
         $(document).ready(function() {
@@ -110,14 +115,23 @@
         $('.course-item').click(function() {
             window.location.href = `/courses/${$(this).attr('idCourse')}/edit`;
         });
+        
+        //check box all
+        checkboxAllCourses.change(function(){
+            checkboxCourses.prop('checked', $(this).is(':checked'));
+            renderBtnAction();
+        })
 
         //check box
-        $('.course-item__checkbox').click(function(e){
-            e.stopPropagation();
-        });
-
-        checkboxCourses.change(function(){
+        checkboxCourses.change(function(e){
+            let countBoxChecked = $('input[name="courseIds[]"]:checked');
+            checkboxAllCourses.prop('checked', checkboxCourses.length === countBoxChecked.length);
             renderBtnAction();
+        })
+
+        checkboxCourses.click(function(e){
+            let countBoxChecked = $('input[name="courseIds[]"]:checked');
+            e.stopPropagation();
         })
 
         //render button action

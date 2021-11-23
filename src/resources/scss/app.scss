@@ -745,8 +745,22 @@ table.dataTable thead .sorting:after {
 
 //MANGE COURSES
 
+.form-group-actions{
+    display: flex;
+    align-items: center;
+}
+
+.btn-group-actions{
+    margin-left: 12px;
+}
+
 .course-item{
     cursor: pointer;
+}
+
+input[name="courseIds[]"]{
+    position: relative;
+    top: 2px;
 }
 
 .list-actions a{
@@ -755,4 +769,9 @@ table.dataTable thead .sorting:after {
 
 .btn-open-rubbish{
     float: right;
+}
+
+.course-item-select-all{
+    position: relative;
+    top: 2px;
 }

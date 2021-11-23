@@ -25,14 +25,14 @@
                                             Action all selected <span class="caret"></span>
                                         </button>
                                         <ul class="dropdown-menu list-actions">
-                                            <li><a>Delete</a></li>
+                                            <li><a>Restore</a></li>
                                         </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <a class="btn btn-primary btn-open-rubbish" href="/courses/rubbish/"> 
-                                        ({{deletedCount}}) Rubbish
+                                        Back to Course list
                                     </a>
                                 </div>
                             </div>
@@ -104,11 +104,6 @@
             $('#dataTables-example').DataTable({
                     responsive: true
             });
-        });
-
-        //redirect to edit course
-        $('.course-item').click(function() {
-            window.location.href = `/courses/${$(this).attr('idCourse')}/edit`;
         });
 
         //check box

@@ -6,13 +6,25 @@ class CourseController {
 
     //[GET] /courses/
     showCourses(req, res, next){
-        Course.find({})
-        .then(courses => {
+        Promise.all([Course.find(), Course.countDocumentsDeleted()])
+        .then(([courses, deletedCount]) => {
             res.render('courses/manage', {
                 courses: multiMongooseToObject(courses),
+                deletedCount
             });
         })  
         .catch(next);   
+    }
+
+    //[GET] /courses/rubbish/
+    showCourseDeleted(req, res, next){
+        Course.findDeleted()
+        .then(courses => {
+            res.render('courses/rubbish', {
+                courses: multiMongooseToObject(courses)
+            })
+        })
+        .catch(next);
     }
 
     //[GET] /courses/create
@@ -117,6 +129,19 @@ class CourseController {
             res.redirect('back');
         })
         .catch(next);
+    }
+
+    //[POST] /courses/handle-form-actions
+    handleFormActions(req, res, next){
+        switch(req.body["input-action"]){
+            case 'Delete':
+                Course.delete({ _id: { $in: req.body.courseIds } })
+                .then(() => res.redirect('back'))
+                .catch(next);
+                break;
+            default:
+                res.json({message: 'Invalid Action'});
+        }
     }
 }
 

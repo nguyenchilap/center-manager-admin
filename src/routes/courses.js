@@ -14,6 +14,10 @@ router.get('/edit/:id', courseController.showForm);
 router.post('/create/create-course', uploadCourseImg.single('img'), courseController.checkTypeCourse, courseController.create);
 router.get('/create', courseController.showForm);
 
+router.post('/handle-form-actions', courseController.handleFormActions);
+
+router.get('/rubbish', courseController.showCourseDeleted);
+
 router.put('/:id/image', updateCourseImg.single('img'), courseController.editImage);
 router.get('/:id/edit', courseController.showCourse);
 router.put('/:id',courseController.checkTypeCourse, courseController.edit);

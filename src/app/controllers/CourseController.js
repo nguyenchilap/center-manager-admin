@@ -1,6 +1,7 @@
 const Course = require('../models/Course');
 const CourseType = require('../models/CourseType');
 const {mongooseToObject, multiMongooseToObject} = require('../../utils/mongoose');
+const {uploadCourseImage} = require('../../config/firebase');
 
 class CourseController {
 
@@ -55,6 +56,7 @@ class CourseController {
 
     create(req, res, next){
         const formData = req.body;
+        const fileData = req.file;
         const lessonList = [];
         if (formData.lessonNames){
             formData.lessonNames.forEach((lessonName, index) => {
@@ -64,20 +66,24 @@ class CourseController {
                 });
             })
         }
-        if (!req.file) formData.img = 'none';
-        else {
-            const d = new Date();
-            formData.img = d.getDate() + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + "-" + formData.name + "/" + req.file.originalname;
+
+        async function getUrlImg(){
+            return await uploadCourseImage(`src/public/img/courses/${fileData.originalname}`, 
+                        fileData.originalname);
         }
-        const course = new Course({ name: formData.name, 
-                                    description: formData.description, 
-                                    img: formData.img, 
-                                    price: formData.price,
-                                    courseTypes: formData.type.concat(formData['type-new']),
-                                    courseLessons: lessonList,
-                                    level: formData.level});
-        course.save()
-        .then(() => res.redirect('courses/'))
+
+        let course = new Course ({ name: formData.name, 
+            description: formData.description, 
+            price: formData.price,
+            courseTypes: formData.type.concat(formData['type-new']),
+            courseLessons: lessonList,
+            level: formData.level
+        });
+
+        getUrlImg()
+        .then(url => {course.img = url; return course})
+        .then((course) => course.save())
+        .then(() => res.redirect('/courses/'))
         .catch(next);
     }
 
@@ -124,7 +130,13 @@ class CourseController {
 
     // [PUT] /courses/:id/img
     editImage(req, res, next){
-        Course.updateOne({_id: req.params.id}, {img: `${req.body['img-folder']}/${req.file.originalname}`})
+        const fileData = req.file;
+        async function getUrlImg(){
+            return await uploadCourseImage(`src/public/img/courses/${fileData.originalname}`, 
+                        fileData.originalname);
+        }
+        getUrlImg()
+        .then(url => Course.updateOne({_id: req.params.id}, {img: url}))
         .then(() => {
             res.redirect('back');
         })

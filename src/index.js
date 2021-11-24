@@ -42,7 +42,7 @@ app.engine('hbs', handlebars({
     helpers: {
       sum: (a, b) => a + b,
       isNone: param => param === 'none', 
-      courseImgFolder: currentPath => currentPath.split('/')[0],
+      dateTimeModifier: date => date.toLocaleString()
     }
 }));
 app.set('view engine', 'hbs');

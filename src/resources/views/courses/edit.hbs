@@ -16,10 +16,8 @@
                     <div class="panel-body">
                         <div class="form-group">
                             <form class="form-img" method="POST" action="/courses/{{course._id}}/image?_method=PUT" enctype="multipart/form-data">
-                                <input name="img-folder" type="text" style="display: none;" value="{{courseImgFolder course.img}}">
                                 <input name="img" type="file" style="display: none;" accept="image/*">
-                                <div class="uploaded-img">
-                                    <img class="input__img" src="/img/courses/{{course.img}}" alt="course-img">
+                                <div class="uploaded-img" style="background-image: url({{course.img}})">
                                     <img class="btn-input__img" src="/img/camera.png" alt="btn-input-img">
                                 </div>
                                 <button type="submit" class="btn btn-dark-outline btn-img">Submit change</button>
@@ -145,13 +143,5 @@
     optionCourseLevels.forEach((option) => {
         if (option.innerHTML === selectCourseLevel.getAttribute('pre-selected'))
             option.setAttribute('selected','selected');
-    })
-
-    $('.btn-input__img').click(function(){
-        $('input[name="img"]').click();
-    })
-
-    $('input[name="img"]').change(function(){
-        $('.btn-img').css('display','block');
     })
 </script>

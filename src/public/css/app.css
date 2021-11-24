@@ -639,26 +639,19 @@ table.dataTable thead .sorting:after {
 .uploaded-img:hover .btn-input__img {
   display: block; }
 
-.input__img {
-  margin-top: 8px;
-  width: 270px;
-  height: 180px;
-  border-radius: 5px; }
-
-.btn-input__img {
-  top: 8px;
-  left: 0;
-  width: 270px;
-  height: 180px;
-  opacity: 0.8;
-  display: none;
-  cursor: pointer;
-  position: absolute; }
-
 .btn-img {
   height: 50px;
   margin-left: 40px;
   display: none; }
+
+.courses-list th:nth-child(1) {
+  width: 208px !important; }
+
+.courses-list th:nth-child(3) {
+  width: 70px !important; }
+
+.courses-list th:nth-child(5) {
+  width: 140px !important; }
 
 .form-group-actions {
   display: flex;
@@ -683,3 +676,21 @@ input[name="courseIds[]"] {
 .course-item-select-all {
   position: relative;
   top: 2px; }
+
+.uploaded-img {
+  margin-top: 8px;
+  width: 270px;
+  height: 180px;
+  border-radius: 5px;
+  background-color: #333;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+  display: flex; }
+
+.btn-input__img {
+  margin: auto;
+  width: 50%;
+  opacity: 0.6;
+  display: none;
+  cursor: pointer; }

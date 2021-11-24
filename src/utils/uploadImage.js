@@ -7,7 +7,7 @@ module.exports = {
         storage: multer.diskStorage({
             destination: (req, file, callback) => {
                 const d = new Date();
-                const path = `src/public/img/courses/${d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear() + "-" + req.body.name}`;
+                const path = `src/public/img/courses`;
                 fs.ensureDirSync(path);
                 callback(null, path);
             },
@@ -20,8 +20,7 @@ module.exports = {
         multer({
         storage: multer.diskStorage({
             destination: (req, file, callback) => {
-                console.log(req.body)
-                const path = `src/public/img/courses/${req.body['img-folder']}`;
+                const path = `src/public/img/courses`;
                 fs.ensureDirSync(path);
                 callback(null, path);
             },

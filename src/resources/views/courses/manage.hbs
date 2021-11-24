@@ -67,8 +67,8 @@
                                                 <td>{{#each this.courseTypes}} <div>{{this}}</div> {{/each}}</td>
                                                 <td>0</td>
                                                 <td>{{this.price}}</td>
-                                                <td>{{this.createdAt}}</td>
-                                                <td>{{this.updatedAt}}</td>
+                                                <td>{{dateTimeModifier this.createdAt}}</td>
+                                                <td>{{dateTimeModifier this.updatedAt}}</td>
                                             </tr>
                                         {{else}}
                                         <tr>

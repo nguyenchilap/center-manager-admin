@@ -69,8 +69,13 @@ $(document).ready(function(){
     })
 
     //Import Img
+    $('.btn-input__img').click(function(){
+        $('input[name="img"]').click();
+    })
+    
     $('input[name="img"]').change(function(event){
-        $('.input__img').attr('src',URL.createObjectURL(event.target.files[0]));
+        $('.uploaded-img').attr('style', `background-image: url(${URL.createObjectURL(event.target.files[0])})`);
+        $('.btn-img').css('display','block');
     })
 
     //Allow only number

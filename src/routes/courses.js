@@ -4,9 +4,6 @@ const router = express.Router();
 const courseController = require('../app/controllers/CourseController');
 const {uploadCourseImg, updateCourseImg} = require('../utils/uploadImage'); 
 
-const multer = require('multer');
-const upload = multer();
-
 //define route
 
 router.get('/edit/:id', courseController.showForm);

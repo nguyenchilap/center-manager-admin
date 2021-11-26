@@ -48,7 +48,7 @@ class CourseController {
                 const courseType = new CourseType({name: newType});
                 courseType.save()
                 .then(next())
-                .catch(next());
+                .catch(next);
             })
         }
         else next();
@@ -71,7 +71,7 @@ class CourseController {
             return await uploadCourseImage(`src/public/img/courses/${fileData.originalname}`, 
                         fileData.originalname);
         }
-
+        if (!formData.type) formData.type = [];
         let course = new Course ({ name: formData.name, 
             description: formData.description, 
             price: formData.price,
@@ -115,6 +115,7 @@ class CourseController {
                 });
             })
         }
+        if (!formData.type) formData.type = [];
         const course ={ name: formData.name, 
                         description: formData.description,  
                         price: formData.price,

@@ -10,6 +10,7 @@ class CourseController {
         Promise.all([Course.find(), Course.countDocumentsDeleted()])
         .then(([courses, deletedCount]) => {
             res.render('courses/manage', {
+                user: req.user,
                 courses: multiMongooseToObject(courses),
                 deletedCount
             });
@@ -22,7 +23,8 @@ class CourseController {
         Course.findDeleted()
         .then(courses => {
             res.render('courses/rubbish', {
-                courses: multiMongooseToObject(courses)
+                courses: multiMongooseToObject(courses),
+                user: req.user
             })
         })
         .catch(next);
@@ -34,6 +36,7 @@ class CourseController {
         .then(courseTypes => {
             res.render('courses/create', {
                 courseTypes: multiMongooseToObject(courseTypes),
+                user: req.user,
             });  
         })
         .catch(next);
@@ -77,7 +80,8 @@ class CourseController {
             price: formData.price,
             courseTypes: formData.type.concat(formData['type-new']),
             courseLessons: lessonList,
-            level: formData.level
+            level: formData.level,
+            createBy: req.user._id,
         });
 
         getUrlImg()
@@ -94,6 +98,7 @@ class CourseController {
             Course.findOne({_id: req.params.id})
             .then((course) => {
                 res.render('courses/edit', {
+                    user: req.user,
                     course: mongooseToObject(course),
                     types: multiMongooseToObject(types)
                 });

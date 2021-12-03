@@ -44,8 +44,18 @@ html {
 .modal-header {
   background-color: var(--primary-color); }
 
+.modal-content {
+  overflow: hidden; }
+
 input {
   font-size: 1.4rem !important; }
+
+.input__birth {
+  display: flex;
+  justify-content: space-between; }
+
+.input__birth .col-lg-3 {
+  padding: 0; }
 
 .active {
   display: block !important; }

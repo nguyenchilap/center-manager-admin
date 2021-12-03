@@ -651,7 +651,11 @@ table.dataTable thead .sorting:after {
   width: 70px !important; }
 
 .courses-list th:nth-child(5) {
-  width: 140px !important; }
+  width: 160px !important; }
+
+.course-item td:nth-child(5) {
+  text-align: center;
+  vertical-align: middle; }
 
 .form-group-actions {
   display: flex;

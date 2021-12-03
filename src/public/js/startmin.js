@@ -43,4 +43,10 @@ $(function() {
             this.classList.add('active');
         }
     });
+
+    //noti modal
+    $('.modal.modal-noti-message').css('display', 'block');
+    $('.btn-close-noti-modal').click(function(){
+        $('.modal-noti-message').css('display', 'none');
+    })
 });

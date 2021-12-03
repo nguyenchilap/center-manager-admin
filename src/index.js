@@ -12,6 +12,10 @@ const port = 3000;
 const route = require('./routes'); 
 const db = require('./config/db');
 
+// Authentication Packages
+const session = require('express-session');
+const passport = require('./config/passport');
+
 //CONNECT TO DB
 db.connect();
 
@@ -36,14 +40,22 @@ app.use(
 // const upload = multer();
 // app.use(upload.array());
 
+//Express Session
+app.use(session({
+  secret: 'ansckansclahicqwunak',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 60 * 60 * 1000 }
+}));
+
+//Use Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Template Engine
 app.engine('hbs', handlebars({
     extname: '.hbs',
-    helpers: {
-      sum: (a, b) => a + b,
-      isNone: param => param === 'none', 
-      dateTimeModifier: date => date.toLocaleString()
-    }
+    helpers: require('./config/handlebars'),
 }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));

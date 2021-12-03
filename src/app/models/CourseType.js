@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const CourseType = new Schema({
+const CourseTypeSchema = new Schema({
     name: {type: String, required: true},
 }, {
     timestamps: true,
@@ -10,4 +10,4 @@ const CourseType = new Schema({
 
 //ADD PLUGIN
 
-module.exports = mongoose.model('CourseType', CourseType);
+module.exports = mongoose.model('CourseType', CourseTypeSchema);

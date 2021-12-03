@@ -13,6 +13,19 @@ const Course = new Schema({
     slug: { type: String, slug: 'name', unique: true },
     courseTypes : [],
     courseLessons: [],
+    courseComments: 
+        [{
+            accountId: {type: Schema.Types.ObjectId}, 
+            studentName: {type: String}, 
+            comment: {type: String},
+            commentAt: {type: Date, default: Date.now()},
+        }],
+    courseStudents: 
+        [{
+            studentId: {type: Schema.Types.ObjectId},
+            result: {type: String, default: 'none'},
+            registerAt: {type: Date, default: Date.now()}
+        }],
     createBy: {type: Schema.Types.ObjectId, ref:'Manager'},
 }, {
     timestamps: true,

@@ -20,8 +20,8 @@
                                 <div class="col-lg-6">
                                     <div class="form-group form-group-actions">
                                         <div>
-                                            <input class="course-item-select-all" name="course-item-select-all" type="checkbox">
-                                            <label for="course-item-select-all">Select all</label>
+                                            <input class="checkBox-select-all" name="checkBox-select-all" type="checkbox">
+                                            <label for="checkBox-select-all">Select all</label>
                                         </div>
                                         <!-- Single button -->
                                         <div class="btn-group btn-group-actions">
@@ -42,7 +42,7 @@
                             </div>
                             <form class="form-action" method="POST" action="/courses/rubbish/handle-form-actions">
                                 <input type="text" class="input-action" name="input-action" style="display: none;">
-                                <table class="table table-striped table-bordered table-hover courses-list" id="dataTables-example">
+                                <table class="table table-striped table-bordered table-hover course-item-list table-item-list" id="dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>ID Course</th>
@@ -57,9 +57,9 @@
                                     </thead>
                                     <tbody>
                                         {{#each courses}}
-                                            <tr class="odd gradeX course-item" idCourse="{{this._id}}">
+                                            <tr class="odd gradeX course-item table-item" idCourse="{{this._id}}">
                                                 <td>
-                                                    <input class="course-item__checkbox" type="checkbox" name="courseIds[]" value="{{this._id}}">
+                                                    <input class="table-item__checkbox" type="checkbox" name="itemIds[]" value="{{this._id}}">
                                                     {{this._id}}
                                                 </td>
                                                 <td>{{this.name}}</td>
@@ -67,8 +67,8 @@
                                                 <td>{{#each this.courseTypes}} <div>{{this}}</div> {{/each}}</td>
                                                 <td>0</td>
                                                 <td>{{this.price}}</td>
-                                                <td>{{this.createdAt}}</td>
-                                                <td>{{this.updatedAt}}</td>
+                                                <td>{{dateTimeModifier this.createdAt}}</td>
+                                                <td>{{dateTimeModifier this.updatedAt}}</td>
                                             </tr>
                                         {{else}}
                                         <tr>
@@ -99,41 +99,9 @@
 <!-- DataTables JavaScript -->
 <script src="/js/dataTables/jquery.dataTables.min.js"></script>
 <script src="/js/dataTables/dataTables.bootstrap.min.js"></script>
+<script src="/js/checkbox.js"></script>
+
 <script>
-        const checkboxCourses = $('input[name="courseIds[]"]');
-        const checkboxAllCourses = $('input[name="course-item-select-all"]');
-
-        //enable pagination table
-        $(document).ready(function() {
-            $('#dataTables-example').DataTable({
-                    responsive: true
-            });
-        });
-
-        //check box all
-        checkboxAllCourses.change(function(){
-            checkboxCourses.prop('checked', $(this).is(':checked'));
-            renderBtnAction();
-        })
-
-        //check box
-        checkboxCourses.change(function(e){
-            let countBoxChecked = $('input[name="courseIds[]"]:checked');
-            checkboxAllCourses.prop('checked', checkboxCourses.length === countBoxChecked.length);
-            renderBtnAction();
-        })
-
-        checkboxCourses.click(function(e){
-            let countBoxChecked = $('input[name="courseIds[]"]:checked');
-            e.stopPropagation();
-        })
-
-        //render button action
-        renderBtnAction = () =>{
-            if ($('input[name="courseIds[]"]:checked').length) $('.btn.btn-action').removeClass('disabled');
-            else $('.btn.btn-action').addClass('disabled');
-        }
-
         //submit btn action
         $('.list-actions li a').click(function(e){
             e.preventDefault();

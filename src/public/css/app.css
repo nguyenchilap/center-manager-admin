@@ -644,13 +644,13 @@ table.dataTable thead .sorting:after {
   margin-left: 40px;
   display: none; }
 
-.courses-list th:nth-child(1) {
+.course-item-list th:nth-child(1) {
   width: 208px !important; }
 
-.courses-list th:nth-child(3) {
+.course-item-list th:nth-child(3) {
   width: 70px !important; }
 
-.courses-list th:nth-child(5) {
+.course-item-list th:nth-child(5) {
   width: 160px !important; }
 
 .course-item td:nth-child(5) {
@@ -664,10 +664,10 @@ table.dataTable thead .sorting:after {
 .btn-group-actions {
   margin-left: 12px; }
 
-.course-item {
+.table-item {
   cursor: pointer; }
 
-input[name="courseIds[]"] {
+input[name="itemIds[]"] {
   position: relative;
   top: 2px; }
 
@@ -677,7 +677,7 @@ input[name="courseIds[]"] {
 .btn-open-rubbish {
   float: right; }
 
-.course-item-select-all {
+.checkBox-select-all {
   position: relative;
   top: 2px; }
 

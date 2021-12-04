@@ -10,7 +10,15 @@ const StudentSchema = new Schema(
         email: {type: String, maxlength: 50},
         img: {type: String, default: 'none'},
         createAt: {type: Date, default: Date.now},
-        account: {type: Schema.Types.ObjectId, ref: 'Account'},
+        account: {
+            username: {type: String, required: true, unique: true},
+            password: {type: String, required: true},
+            createAt: {type: Date, default: Date.now()}
+        },
+        banned: {
+            login: {type: Boolean},
+            comment: {type: Boolean},
+        }
     },
     {
         // _id: false,

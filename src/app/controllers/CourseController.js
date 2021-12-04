@@ -153,7 +153,7 @@ class CourseController {
     handleFormActions(req, res, next){
         switch(req.body["input-action"]){
             case 'Delete':
-                Course.delete({ _id: { $in: req.body.courseIds } })
+                Course.delete({ _id: { $in: req.body.itemIds } })
                 .then(() => res.redirect('back'))
                 .catch(next);
                 break;
@@ -165,7 +165,7 @@ class CourseController {
     handleFormActionsRubbish(req, res, next){
         switch(req.body["input-action"]){
             case 'Restore':
-                Course.restore({ _id: { $in: req.body.courseIds } })
+                Course.restore({ _id: { $in: req.body.itemIds } })
                 .then(() => res.redirect('back'))
                 .catch(next);
                 break;

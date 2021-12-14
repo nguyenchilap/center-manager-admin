@@ -1,21 +1,30 @@
-Manager = require('../models/Manager');
+const Manager = require('../models/Manager');
+const passport = require('../../config/passport');
 
 class SiteController {
     //[GET] /
     index(req, res, next){
         res.render('home', {
-            notiMessage: req.query.notiMessage,
             user: req.user,
         });
     }
 
     //[POST] /
     login(req, res, next){
-        Manager.findOne({_id: req.user._id})
-        .then(manager => {
-            res.redirect('back');
-        })
-        .catch(next);
+        passport.authenticate('localLogin', function(error, user, info){
+            if (error) next(error);
+            if (!user){
+                res.json({notiMessage: info.message})
+            }
+            req.logIn(user, function(err){
+                if (err) next(err);
+                else res.json({
+                    user,
+                    redirect: '/',
+                    notiMessage: 'Login accessed!!!'
+                })
+            })
+        })(req, res, next);
     }
 
     //[GET] /account

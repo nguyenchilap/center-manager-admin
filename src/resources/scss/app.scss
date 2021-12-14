@@ -796,3 +796,13 @@ input[name="itemIds[]"]{
     display: none;
     cursor: pointer;
 }
+
+//ADMIN
+
+.username-noti{
+    display: none;
+    color: var(--angry-color);
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-top: 4px;
+}

@@ -12,9 +12,9 @@ router.get('/account', siteController.showAccount);
 router.get('/', siteController.index);
 
 //authentication
-router.post('/', passport.authenticate('local', { 
-    failureRedirect: '/?notiMessage=Tên đăng nhập hoặc mật khẩu không đúng' 
-}), siteController.login);
+router.post('/', siteController.login);
+
+//log-out
 router.get('/logout', function(req, res){
     req.logout();
     res.redirect('back');

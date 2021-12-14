@@ -26,23 +26,13 @@ $(function() {
         }
     });
 
-    // var url = window.location;
-    // var element = $('ul.nav a').filter(function() {
-    //     return this.href == url || url.href.indexOf(this.href) == 0;
-    // }).addClass('active').parent().parent().addClass('in').parent();
-    // if (element.is('li')) {
-    //     element.addClass('active');
-    // }
+    const url = window.location;
 
-    const nav = document.querySelectorAll('ul.nav li');
-    const navSecondLevels = document.querySelectorAll('ul.nav-second-level a');
+    const pathname = new URL(url.href).pathname;
 
-    navSecondLevels.forEach((navSecondLevel) => {
-        navSecondLevel.onclick = () => {
-            this.parentNode.classList.add('active');
-            this.classList.add('active');
-        }
-    });
+    $('ul.nav a').filter(function() {
+        return this.href == url || this.href == pathname;
+    }).addClass('active').parent().parent().addClass('in');
 
     //noti modal
     $('.modal.modal-noti-message').css('display', 'block');

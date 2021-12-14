@@ -1,27 +1,33 @@
-const bcrypt = require('bcryptjs');
+const adminRepo = require('../repository/AdminRepository');
 const Manager = require('../models/Manager');
 
 class AdminController {
     //[GET] /admin
     index(req, res, next){
-        res.render('admin/create-account', {
-        });
+        res.render('admin/create-account', {isAdmin: 1});
     }
 
     //[POST] /admin/create-account
     createAccount(req, res, next){
-        const formData = req.body;
-        const hashedPassword = bcrypt.hashSync(formData.password, 10);
-
-        const account = new Manager({
-            account: {
-                username: formData.username,
-                password: hashedPassword,
-            }
-        })
-
+        const account = adminRepo.newAccount(req.body.username, req.body.password);
         account.save()
-        .then(() => {res.redirect('/')})
+        .then(() => 
+            res.redirect('/')
+        )
+        .catch(next);   
+    }
+
+    //[POST] /admin/check-username
+    checkUsername(req, res, next){
+        Manager.findOne({"account.username": req.body.username})
+        .then(account => {
+            if (account) res.json({
+                exists: true,
+            })
+            else res.json({
+                exists: false,
+            })
+        })
         .catch(next);
     }
 }

@@ -3,8 +3,6 @@ const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const path = require('path');
 const methodOverride = require('method-override');
-const bodyParser = require('body-parser');
-const multer = require('multer');
 
 const app = express();
 const port = 3000;

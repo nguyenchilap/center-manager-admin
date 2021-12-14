@@ -1,5 +1,6 @@
 const Course = require('../models/Course');
 const CourseType = require('../models/CourseType');
+const courseRepo = require('../repository/CourseRepository');
 const {mongooseToObject, multiMongooseToObject} = require('../../utils/mongoose');
 const {uploadCourseImage} = require('../../config/firebase');
 
@@ -14,7 +15,7 @@ class CourseController {
                 courses: multiMongooseToObject(courses),
                 deletedCount
             });
-        })  
+        })
         .catch(next);   
     }
 
@@ -45,7 +46,6 @@ class CourseController {
     //[POST] /courses/create/create-course
     checkTypeCourse(req, res, next){
         const formData = req.body;
-        // res.json(formData);
         if (formData['type-new']){
             formData['type-new'].forEach((newType) => {
                 const courseType = new CourseType({name: newType});
@@ -74,6 +74,7 @@ class CourseController {
             return await uploadCourseImage(`src/public/img/courses/${fileData.originalname}`, 
                         fileData.originalname);
         }
+
         if (!formData.type) formData.type = [];
         let course = new Course ({ name: formData.name, 
             description: formData.description, 
@@ -110,23 +111,7 @@ class CourseController {
 
     // [PUT] /courses/:id/
     edit(req, res, next){
-        const formData = req.body;
-        const lessonList = [];
-        if (formData.lessonNames){
-            formData.lessonNames.forEach((lessonName, index) => {
-                lessonList.push({
-                    name: lessonName,
-                    description: formData.lessonDescripts[index]
-                });
-            })
-        }
-        if (!formData.type) formData.type = [];
-        const course ={ name: formData.name, 
-                        description: formData.description,  
-                        price: formData.price,
-                        courseTypes: formData.type.concat(formData['type-new']),
-                        courseLessons: lessonList,
-                        level: formData.level};
+        const course = courseRepo.editCourse(req.body);
         Course.updateOne({_id: req.params.id}, course)
         .then(() => {
             res.redirect('back');

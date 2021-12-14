@@ -10,6 +10,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Username" name="username" type="text" autofocus required>
+                                <div class="username-noti">(*) Username already exists</div>
                             </div>
                             <div class="form-group">
                                 <input class="form-control" placeholder="Password" name="password" type="password" required>
@@ -23,3 +24,24 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function(){
+        $('input[name="username"]').change(function(){
+            $.post('/admin/check-username', {
+                username: $(this).val(),
+            }, function(res){
+                console.log(res);
+                if (res.exists === true){
+                    $('.username-noti').css('display', 'block');
+                    $('button[type="submit"]').addClass('disabled');
+                }
+                else{
+                    $('.username-noti').css('display', 'none');
+                    $('button[type="submit"]').removeClass('disabled');
+                }
+            })
+        });
+    })
+</script>

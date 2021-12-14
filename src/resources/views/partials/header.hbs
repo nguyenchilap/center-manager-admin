@@ -71,8 +71,8 @@
             </ul>
         </li>
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i> secondtruth <b class="caret"></b>
+            <a class="dropdown-toggle dropdown-username" data-toggle="dropdown" href="#">
+                <i class="fa fa-user fa-fw"></i> {{user.name}} <b class="caret"></b>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="/account"><i class="fa fa-user fa-fw"></i> My Account</a>
@@ -105,22 +105,10 @@
                     <a href="index.html" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Sales<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="">Top 10 Course</a>
-                        </li>
-                        <li>
-                            <a href="">Number of student</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-                <li>
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Courses<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="/courses/">Manage Courses</a>
+                            <a href="/courses">Manage Courses</a>
                         </li>
                         <li>
                             <a href="/courses/create">Create Courses</a>
@@ -134,7 +122,7 @@
                     <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Students<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="/students/">Manage Students</a>
+                            <a href="/students">Manage Students</a>
                         </li>
                         <li>
                         </li>
@@ -142,7 +130,7 @@
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="login.html"><i class="fa fa-edit fa-fw"></i> Logout</a>
+                    <a href="/logout"><i class="fa fa-edit fa-fw"></i> Logout</a>
                 </li>
                 
             </ul>

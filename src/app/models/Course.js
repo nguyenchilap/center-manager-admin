@@ -26,6 +26,11 @@ const Course = new Schema({
             result: {type: String, default: 'none'},
             registerAt: {type: Date, default: Date.now()}
         }],
+    courseTeachers:
+        [{
+            teacherId: {type: Schema.Types.ObjectId},
+            assignedAt: {type: Date, default: Date.now()}
+        }],
     createBy: {type: Schema.Types.ObjectId, ref:'Manager'},
 }, {
     timestamps: true,

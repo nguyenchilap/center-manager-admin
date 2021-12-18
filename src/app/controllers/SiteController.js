@@ -1,12 +1,20 @@
+const Student = require('../models/Student');
+const Course = require('../models/Course');
 const Manager = require('../models/Manager');
 const passport = require('../../config/passport');
 
 class SiteController {
     //[GET] /
     index(req, res, next){
-        res.render('home', {
-            user: req.user,
-        });
+        Promise.all([Course.countDocuments(), Student.countDocuments()])
+        .then(([countCourse, countStudent]) => {
+            res.render('home', {
+                user: req.user,
+                countCourse,
+                countStudent
+            });
+        })
+        .catch(next);
     }
 
     //[POST] /

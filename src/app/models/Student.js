@@ -18,6 +18,7 @@ const StudentSchema = new Schema(
         banned: {
             login: {type: Boolean},
             comment: {type: Boolean},
+            bannedBy: {type: String}
         }
     },
     {

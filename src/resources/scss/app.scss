@@ -665,6 +665,19 @@ table.dataTable thead .sorting:after {
     display: inline-flex;
     float: right;
 }
+//HEADER
+i.nav-icon{
+    min-width: 16px;
+}
+
+i.nav-icon.nav-icon-course{
+    margin-left: 3px;
+}
+
+i.nav-icon.nav-icon-student{
+    margin-left: 4px;
+}
+
 
 // CREATE COURSES
 .form-group.input__type > select,

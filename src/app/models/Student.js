@@ -16,9 +16,10 @@ const StudentSchema = new Schema(
             createAt: {type: Date, default: Date.now()}
         },
         banned: {
-            login: {type: Boolean},
-            comment: {type: Boolean},
-            bannedBy: {type: String}
+            login: {type: Boolean, default: false},
+            comment: {type: Boolean, default: false},
+            bannedBy: {type: String},
+            bannedAt: {type: Date, default: Date.now},
         }
     },
     {

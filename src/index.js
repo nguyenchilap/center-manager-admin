@@ -32,11 +32,6 @@ app.use(
     extended: true,
   })
 );
-// for parsing application/json
-// app.use(bodyParser.json());
-// for parsing multipart/form-data
-// const upload = multer();
-// app.use(upload.array());
 
 //Express Session
 app.use(session({

@@ -2,6 +2,9 @@ const Student = require('../models/Student');
 const Course = require('../models/Course');
 const Manager = require('../models/Manager');
 const passport = require('../../config/passport');
+const bcrypt = require('bcryptjs');
+
+const {mongooseToObject, multiMongooseToObject} = require('../../utils/mongoose');
 
 class SiteController {
     //[GET] /
@@ -37,15 +40,16 @@ class SiteController {
 
     //[GET] /account
     showAccount(req, res, next){
-        const user = req.user;
-        const d = user.birth.split('/');
-        user.date = d[0];
-        user.month = d[1];
-        user.year = d[2];
-
-        res.render('account',{
-            user,
+        Manager.findOne({_id: req.user._id})
+        .then(user => {
+            const manager = mongooseToObject(user);
+            const d = manager.birth.split('/');
+            manager.date = d[0];
+            manager.month = d[1];
+            manager.year = d[2];
+            res.render('account', {user: manager});
         })
+        .catch(next);
     }
 
     //[POST] /account/edit
@@ -55,6 +59,24 @@ class SiteController {
         Manager.updateOne({_id: req.user._id}, formData)
         .then(() => res.redirect('back'))
         .catch(next);
+    }
+
+    //[POST] /account/change-password
+    changePassword(req, res, next){
+        if (!bcrypt.compareSync(req.body.password, req.user.account.password))
+            res.json({
+                success: 0,
+                notiMessage: 'Un-correct current password !! Please try again.'
+            })
+        Manager.updateOne({_id: req.user._id}, {'account.password' : bcrypt.hashSync(req.body.newPassword)})
+        .then(() => res.json({
+            success: 1,
+            notiMessage: 'Password has been changed successfully !! You are about to be logged out.'
+        }))
+        .catch(() => res.json({
+            success: 0,
+            notiMessage: 'Failed !! Something went wrong.'
+        }));
     }
 }
 

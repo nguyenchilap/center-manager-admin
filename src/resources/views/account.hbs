@@ -11,11 +11,11 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Edit Information
+                        Edit Account
                     </div>
-                    <form class="panel-body" method="POST" action="/account/edit">
+                    <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-6">
+                            <form class="col-lg-6" method="POST" action="/account/change-password">
                                 <div role="form">
                                     <div class="form-group">
                                         <label>Name</label>
@@ -44,16 +44,32 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <button type="submit" class="btn btn-default btn-success btn-submit">Submit Button</button>
+                                <button type="reset" class="btn btn-default">Reset Button</button>
+                            </form>
                             <!-- /.col-lg-6 (nested) -->
-                            <div class="col-lg-6">
-                            </div>
+                            <form class="col-lg-6">
+                                <div role="form">
+                                    <div class="form-group">
+                                        <label>Current password</label>
+                                        <input name="current-password" type="password" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New password</label>
+                                        <input name="new-password" type="password" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm new password</label>
+                                        <input name="confirm-new-password" type="password" class="form-control" required>
+                                        <div class="noti-warning noti-confirm-password" style="display: none;">Unmatched, please confirm it again !!!</div>
+                                    </div>
+                                </div>
+                                <div class="btn btn-default btn-success btn-change-password" style="float: right">Submit Button</div>
+                            </form>
                             <!-- /.col-lg-6 (nested) -->
                         </div>
                         <!-- /.row (nested) -->
-                        <button type="submit" class="btn btn-default btn-success btn-submit">Submit Button</button>
-                        <button type="reset" class="btn btn-default">Reset Button</button>
-                    </form>
+                    </div>
                     <!-- /.panel-body -->
                 </div>
                 <!-- /.panel -->
@@ -65,3 +81,31 @@
     <!-- /.container-fluid -->
 </div>
 <!-- /#page-wrapper -->
+
+<script>
+    $(document).ready(function(){
+        $('.btn-change-password').click(function(){
+            const inputPassword = $('input[name="current-password"]').val();
+            const inputNewPassword = $('input[name="new-password"]').val();
+            const inputConfirmPassword = $('input[name="confirm-new-password"]').val();
+
+            if (!inputPassword || !inputNewPassword || !inputConfirmPassword) 
+                alert('Please fill all the fields !!!');
+            else if (inputNewPassword != inputConfirmPassword) 
+                $('.noti-confirm-password').css('display','block');
+            else {
+                $('.noti-confirm-password').css('display','none');
+                $.post('/account/change-password', {
+                    password: inputPassword,
+                    newPassword: inputNewPassword,
+                }, function(res){
+                    if (!res.success) alert(res.notiMessage);
+                    else {
+                        alert(res.notiMessage);
+                        window.location.href = '/logout';
+                    }
+                })
+            }
+        })
+    })
+</script>

@@ -59,3 +59,8 @@ input {
 
 .active {
   display: block !important; }
+
+.noti-warning {
+  margin-top: 4px;
+  color: red;
+  font-style: italic; }

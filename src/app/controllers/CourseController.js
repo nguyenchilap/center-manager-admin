@@ -1,4 +1,5 @@
 const Course = require('../models/Course');
+const Student = require('../models/Student');
 const CourseType = require('../models/CourseType');
 const courseRepo = require('../repository/CourseRepository');
 const {mongooseToObject, multiMongooseToObject} = require('../../utils/mongoose');
@@ -98,11 +99,20 @@ class CourseController {
         .then((types) => {
             Course.findOne({_id: req.params.id})
             .then((course) => {
-                res.render('courses/edit', {
-                    user: req.user,
-                    course: mongooseToObject(course),
-                    types: multiMongooseToObject(types)
-                });
+                const courseStudents = course.courseStudents.map(element => element.studentId);
+                Student.find({_id: {$in: courseStudents}})
+                .then(students => {
+                    let studentObjects = multiMongooseToObject(students);
+                    studentObjects.forEach(studentObject => {
+                        studentObject.registeredAt = course.courseStudents.find(element => element.studentId.toString() === studentObject._id.toString()).registerAt;
+                    })
+                    res.render('courses/edit', {
+                        user: req.user,
+                        course: mongooseToObject(course),
+                        types: multiMongooseToObject(types),
+                        students: studentObjects
+                    });
+                })
             })
             .catch(next);
         }) 
@@ -147,6 +157,7 @@ class CourseController {
         }
     }
 
+    //[POST] /courses/rubbish/handle-form-actions
     handleFormActionsRubbish(req, res, next){
         switch(req.body["input-action"]){
             case 'Restore':
@@ -156,6 +167,54 @@ class CourseController {
                 break;
             default:
                 res.json({message: 'Invalid Action'});
+        }
+    }
+
+    //[POST] /course/edit/:id/delete-comment/idComment
+    deleteComment(req, res, next){
+        Course.updateOne({_id: req.params.id}, {
+            $pull: {
+                courseComments: {
+                    _id: req.params.idComment
+                },
+            },
+        })
+        .then(() => res.redirect('back'))
+        .catch(next);
+    }
+
+    //[POST] /course/edit/:id/ban-comment/idStudent
+    banComment(req, res, next){
+        Student.updateOne({_id: req.params.idStudent}, {
+            'banned.comment': true
+        })
+        .then(() => res.redirect('/students'))
+        .catch(next);
+    }
+
+    //[POST] /course/edit/:id/ban-login/idStudent
+    banLogin(req, res, next){
+        Student.updateOne({_id: req.params.idStudent}, {
+            'banned.login': true
+        })
+        .then(() => res.redirect('/students'))
+        .catch(next);
+    }
+
+    //[GET] /course/chart
+    showChart(req, res, next){
+        res.render('courses/chart', {
+            user: req.user
+        });
+    }
+
+    //[GET] /course/chart/registered-students
+    async showChartRegisteredStudents(req, res, next){
+        if (req.query.month) {
+            res.json(await courseRepo.findCourseByMonthAndYear(req.query.month, req.query.year));
+        }
+        else {
+            res.json(await courseRepo.findCourseByYear(req.query.year));
         }
     }
 }

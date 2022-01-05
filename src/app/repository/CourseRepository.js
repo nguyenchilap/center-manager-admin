@@ -24,6 +24,34 @@ class CourseRepository {
             level: formData.level
         };
     }
+
+    findCourseByMonthAndYear(inputMonth, inputYear){
+        return Course.aggregate([
+            {
+                $addFields: {
+                    month: {$month: '$createdAt'},
+                    year: {$year: '$createdAt'},
+                }
+            },
+            {
+                $match: {
+                    month: Number(inputMonth),
+                    year: Number(inputYear),
+                } 
+            }
+        ]);
+    }
+
+    findCourseByYear(inputYear){
+        return Course.aggregate([
+            { 
+                $addFields : { year: {$year: '$createdAt'}} 
+            },
+            { 
+                $match: { year: Number(inputYear)}
+            }
+        ]);
+    }
 }
 
 module.exports = new CourseRepository;

@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Edit Course</h1>
+                <h1 class="page-header">Course Id: {{course._id}}</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
@@ -11,7 +11,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Course Information
+                        Course Edit
                     </div>
                     <div class="panel-body">
                         <div class="form-group">
@@ -103,6 +103,7 @@
                                             {{/each}}
                                         </tbody>
                                     </table>
+                                    <a class="btn btn-danger btn-add-field btn-remove-lesson">Remove Last</a>
                                 </div>
 
                             </div>
@@ -129,17 +130,68 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Course Students
+                        Course Information
                     </div>
                     <div class="panel-body">
                         <div method="POST" action="/courses/{{course._id}}?_method=PUT">
                         <div class="row">
                             <div class="col-lg-6">
-                               
+                                <h4>Students</h4>
+                                <div class="course-students">
+                                    {{#each students}}
+                                        <div class="course-student">
+                                            <div class="course-student__img" style="background-image: url({{this.img}});">
+                                            </div>
+                                            <div class="course-student__id">
+                                                {{this._id}}
+                                            </div>
+                                            <div class="course-student__name">
+                                                {{this.name}}
+                                            </div>
+                                            <div class="course-student__date">
+                                                {{dateTimeModifier this.registeredAt}}
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                </div>
                             </div>
                             <!-- /.col-lg-6 (nested) -->
                             <div class="col-lg-6">
-
+                                <h4>Comments</h4>
+                                <div class="course-comments">
+                                    {{#each course.courseComments}}
+                                        <div class="course-comment">
+                                            <div class="course-comment__title">
+                                                <div class="course-comment__name">
+                                                    {{this.studentName}}
+                                                </div>
+                                                <div class="course-comment__id">
+                                                    {{this.studentId}}
+                                                </div>
+                                                <i class="fas fa-ellipsis-h course-comment__actions"></i>
+                                                <div class="comment-actions">
+                                                    <div class="comment-action" id="{{this._id}}" action="delete-comment">
+                                                        Delete comment
+                                                    </div>
+                                                    <div class="comment-action" id="{{this.studentId}}" action="ban-comment">
+                                                        Ban comment
+                                                    </div>
+                                                    <div class="comment-action" id="{{this.studentId}}" action="ban-login">
+                                                        Ban login
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="course-comment__content">
+                                                <div class="course-comment__comment">
+                                                    {{dateTimeModifier this.comment}}
+                                                </div>
+                                                <div class="course-comment__date">
+                                                    {{dateTimeModifier this.commentAt}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{/each}}
+                                </div>
                             </div>
                             <!-- /.col-lg-6 (nested) -->
                         </div>
@@ -157,9 +209,17 @@
     <!-- /.container-fluid -->
 </div>
 
+<form class="handle-comment-actions" method="POST" action=""></form>
+
 <!-- /#page-wrapper -->
 <script src="/js/create-course.js"></script>
 <script>
+    $('body').click(function(e){
+        //close action menu comment
+        if (!$(e.target).context.className.includes('comment-actions') && !$(e.target).context.className.includes('course-comment__actions'))
+            $('.comment-actions').removeClass('active');
+    });
+
     const types = document.querySelectorAll('.form-group.input__type ul li');
     const selectCourseTypes = document.querySelectorAll('.form-group.input__type select');
     const selectCourseLevel = document.querySelector('.form-group.input__level select');
@@ -171,10 +231,35 @@
                 selectCourseType.innerHTML += `<option selected>${type.innerHTML}</option>`;
             else selectCourseType.innerHTML += `<option>${type.innerHTML}</option>`;
         })
-    })
+    });
 
     optionCourseLevels.forEach((option) => {
         if (option.innerHTML === selectCourseLevel.getAttribute('pre-selected'))
             option.setAttribute('selected','selected');
-    })
+    });
+
+    //open action menu comment
+    $('.course-comment__actions').click(function(){
+        $('.comment-actions').removeClass('active');
+        const actionMenu = $(this).parent().children('.comment-actions');
+        actionMenu.toggleClass('active');
+    });
+
+    //handle action menu comment
+    $('.comment-action').click(function(){
+        let href = window.location.href;
+        switch($(this).attr('action')){
+            case 'delete-comment':
+                href += `/delete-comment/${$(this).attr('id')}` 
+                break
+            case 'ban-comment':
+                href += `/ban-comment/${$(this).attr('id')}` 
+                break
+            case 'ban-login':
+                href += `/ban-login/${$(this).attr('id')}` 
+                break
+        }
+        $('.handle-comment-actions').attr('action', href);
+        $('.handle-comment-actions').submit();
+    });
 </script>

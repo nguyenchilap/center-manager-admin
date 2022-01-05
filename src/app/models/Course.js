@@ -15,7 +15,7 @@ const Course = new Schema({
     courseLessons: [],
     courseComments: 
         [{
-            accountId: {type: Schema.Types.ObjectId}, 
+            studentId: {type: Schema.Types.ObjectId}, 
             studentName: {type: String}, 
             comment: {type: String},
             commentAt: {type: Date, default: Date.now()},
@@ -32,6 +32,7 @@ const Course = new Schema({
             assignedAt: {type: Date, default: Date.now()}
         }],
     createBy: {type: Schema.Types.ObjectId, ref:'Manager'},
+    createdAt: {type: Date},
 }, {
     timestamps: true,
 } );

@@ -56,6 +56,10 @@ $(document).ready(function(){
         }
     }
 
+    $('.btn-remove-lesson').click(function(){
+        $('.create__lesson-list tbody tr:last-child').remove()
+    })
+
     //Check Dropdown Input
     $('.btn-submit').click(function(e) {
         const selectInputs = document.querySelectorAll('select');

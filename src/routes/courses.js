@@ -6,7 +6,12 @@ const {uploadCourseImg, updateCourseImg} = require('../utils/uploadImage');
 
 //define route
 
-router.get('/edit/:id', courseController.showForm);
+router.get('/chart', courseController.showChart);
+router.get('/chart/registered-students', courseController.showChartRegisteredStudents);
+
+router.post('/:id/edit/delete-comment/:idComment', courseController.deleteComment);
+router.post('/:id/edit/ban-comment/:idStudent', courseController.banComment);
+router.post('/:id/edit/ban-login/:idStudent', courseController.banLogin);
 
 router.post('/create/create-course', uploadCourseImg.single('img'), courseController.checkTypeCourse, courseController.create);
 router.get('/create', courseController.showForm);

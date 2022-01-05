@@ -1,0 +1,112 @@
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Course Statistics</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Charts
+                    </div>
+                    <div class="panel-body">
+                        <div class="row" style="padding : 16px 36px;">
+                            <div class="btn-filters" style="float: left;">
+                                <select class="form-control filter-component filter-year">
+                                </select>
+
+                                <select class="form-control filter-component filter-month">
+                                    <option>Month</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>10</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                </select>
+                            </div>
+                            <div class="btn btn-default btn-success btn-filter-registered-students">Filter</div>
+                        </div>
+
+                        <div class="row canvases">
+                            <canvas id='registeredStudents' style="width: 100%; padding: 20px; margin-left: -28px;"></canvas>
+                        </div>
+                        <!-- /.row (nested) -->
+                    </form>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        //render year
+        renderYear = () => {
+            const d = new Date(Date.now());
+            for(let i = 2015; i < d.getFullYear(); i++){
+                $('.filter-year').append(`<option>${i}</option>`);
+            }
+            $('.filter-year').append(`<option selected>${d.getFullYear()}</option>`);
+        }
+        renderYear();
+
+        clearCanvas = () => {
+            $('#registeredStudents').remove();
+            $('.canvases').append(`<canvas id='registeredStudents' style="width: 100%; padding: 20px; margin-left: -28px;"></canvas>`);
+        }
+
+        filterChart = (month, year) => {
+            clearCanvas();
+            let url;
+            if (month) url = `/courses/chart/registered-students?month=${month}&year=${year}`;
+            else url = `/courses/chart/registered-students?year=${year}`;
+            $.get(url, function(courses){
+                new Chart('registeredStudents', {
+                    type: "bar",
+                    data: {
+                        labels: courses.map(course => course.name),
+                        datasets: [{
+                            backgroundColor: "#e8c3b9",
+                            data: courses.map(course => course.courseStudents.length)
+                        }]
+                    },
+                    options: {
+                        legend: {display: false},
+                        title: {
+                        display: true,
+                        text: month ? `Registered students on ${month}/${year}` : `Registered students in ${year}`
+                        }
+                    }
+                })
+            });
+        }
+
+        filterChart(0, $('.filter-year option:selected').html());
+
+        $('.btn-filter-registered-students').click(function(){
+            const month = $('.filter-month option:selected').html();
+            const year = $('.filter-year option:selected').html();
+            if (month === 'Month') filterChart(0, year);
+            else filterChart(month, year);
+        })
+    })
+</script>
